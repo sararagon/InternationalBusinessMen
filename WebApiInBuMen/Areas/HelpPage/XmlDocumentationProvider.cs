@@ -14,7 +14,7 @@ namespace WebApiInBuMen.Areas.HelpPage
     /// </summary>
     public class XmlDocumentationProvider : IDocumentationProvider, IModelDocumentationProvider
     {
-        private XPathNavigator _documentNavigator;
+        private readonly XPathNavigator _documentNavigator;
         private const string TypeExpression = "/doc/members/member[@name='T:{0}']";
         private const string MethodExpression = "/doc/members/member[@name='M:{0}']";
         private const string PropertyExpression = "/doc/members/member[@name='P:{0}']";
@@ -29,7 +29,7 @@ namespace WebApiInBuMen.Areas.HelpPage
         {
             if (documentPath == null)
             {
-                throw new ArgumentNullException("documentPath");
+                throw new ArgumentNullException(nameof(documentPath));
             }
             XPathDocument xpath = new XPathDocument(documentPath);
             _documentNavigator = xpath.CreateNavigator();
@@ -49,8 +49,7 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         public virtual string GetDocumentation(HttpParameterDescriptor parameterDescriptor)
         {
-            ReflectedHttpParameterDescriptor reflectedParameterDescriptor = parameterDescriptor as ReflectedHttpParameterDescriptor;
-            if (reflectedParameterDescriptor != null)
+            if (parameterDescriptor is ReflectedHttpParameterDescriptor reflectedParameterDescriptor)
             {
                 XPathNavigator methodNode = GetMethodNode(reflectedParameterDescriptor.ActionDescriptor);
                 if (methodNode != null)
@@ -90,8 +89,7 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         private XPathNavigator GetMethodNode(HttpActionDescriptor actionDescriptor)
         {
-            ReflectedHttpActionDescriptor reflectedActionDescriptor = actionDescriptor as ReflectedHttpActionDescriptor;
-            if (reflectedActionDescriptor != null)
+            if (actionDescriptor is ReflectedHttpActionDescriptor reflectedActionDescriptor)
             {
                 string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression, GetMemberName(reflectedActionDescriptor.MethodInfo));
                 return _documentNavigator.SelectSingleNode(selectExpression);
@@ -115,13 +113,10 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         private static string GetTagValue(XPathNavigator parentNode, string tagName)
         {
-            if (parentNode != null)
+            XPathNavigator node = parentNode?.SelectSingleNode(tagName);
+            if (node != null)
             {
-                XPathNavigator node = parentNode.SelectSingleNode(tagName);
-                if (node != null)
-                {
-                    return node.Value.Trim();
-                }
+                return node.Value.Trim();
             }
 
             return null;
@@ -145,14 +140,18 @@ namespace WebApiInBuMen.Areas.HelpPage
                 string genericTypeName = genericType.FullName;
 
                 // Trim the generic parameter counts from the name
-                genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
-                string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
-                name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
+                if (genericTypeName != null)
+                {
+                    genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
+                    string[] argumentTypeNames = genericArguments.Select(GetTypeName).ToArray();
+                    name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName,
+                        String.Join(",", argumentTypeNames));
+                }
             }
             if (type.IsNested)
             {
                 // Changing the nested type name from OuterType+InnerType to OuterType.InnerType to match the XML documentation syntax.
-                name = name.Replace("+", ".");
+                if (name != null) name = name.Replace("+", ".");
             }
 
             return name;

@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace WebApiInBuMen.Areas.HelpPage
+namespace WebApiInBuMen.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// This class will create an object of a given type and populate it with sample data.
@@ -14,7 +14,7 @@ namespace WebApiInBuMen.Areas.HelpPage
     public class ObjectGenerator
     {
         internal const int DefaultCollectionSize = 2;
-        private readonly SimpleTypeObjectGenerator SimpleObjectGenerator = new SimpleTypeObjectGenerator();
+        private readonly SimpleTypeObjectGenerator _simpleObjectGenerator = new SimpleTypeObjectGenerator();
 
         /// <summary>
         /// Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
@@ -42,7 +42,7 @@ namespace WebApiInBuMen.Areas.HelpPage
             {
                 if (SimpleTypeObjectGenerator.CanGenerateObject(type))
                 {
-                    return SimpleObjectGenerator.GenerateObject(type);
+                    return _simpleObjectGenerator.GenerateObject(type);
                 }
 
                 if (type.IsArray)
@@ -216,7 +216,7 @@ namespace WebApiInBuMen.Areas.HelpPage
         private static object GenerateArray(Type arrayType, int size, Dictionary<Type, object> createdObjectReferences)
         {
             Type type = arrayType.GetElementType();
-            Array result = Array.CreateInstance(type, size);
+            Array result = Array.CreateInstance(type ?? throw new InvalidOperationException(), size);
             bool areAllElementsNull = true;
             ObjectGenerator objectGenerator = new ObjectGenerator();
             for (int i = 0; i < size; i++)
@@ -258,11 +258,11 @@ namespace WebApiInBuMen.Areas.HelpPage
                     return null;
                 }
 
-                bool containsKey = (bool)containsMethod.Invoke(result, new object[] { newKey });
+                bool containsKey = containsMethod != null && (bool)containsMethod.Invoke(result, new object[] { newKey });
                 if (!containsKey)
                 {
                     object newValue = objectGenerator.GenerateObject(typeV, createdObjectReferences);
-                    addMethod.Invoke(result, new object[] { newKey, newValue });
+                    if (addMethod != null) addMethod.Invoke(result, new object[] {newKey, newValue});
                 }
             }
 
@@ -300,10 +300,10 @@ namespace WebApiInBuMen.Areas.HelpPage
             {
                 Type argumentType = typeof(IEnumerable<>).MakeGenericType(queryableType.GetGenericArguments());
                 MethodInfo asQueryableMethod = typeof(Queryable).GetMethod("AsQueryable", new[] { argumentType });
-                return asQueryableMethod.Invoke(null, new[] { list });
+                if (asQueryableMethod != null) return asQueryableMethod.Invoke(null, new[] {list});
             }
 
-            return Queryable.AsQueryable((IEnumerable)list);
+            return ((IEnumerable)list).AsQueryable();
         }
 
         private static object GenerateCollection(Type collectionType, int size, Dictionary<Type, object> createdObjectReferences)
@@ -318,7 +318,7 @@ namespace WebApiInBuMen.Areas.HelpPage
             for (int i = 0; i < size; i++)
             {
                 object element = objectGenerator.GenerateObject(type, createdObjectReferences);
-                addMethod.Invoke(result, new object[] { element });
+                if (addMethod != null) addMethod.Invoke(result, new object[] {element});
                 areAllElementsNull &= element == null;
             }
 
@@ -339,9 +339,7 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         private static object GenerateComplexObject(Type type, Dictionary<Type, object> createdObjectReferences)
         {
-            object result = null;
-
-            if (createdObjectReferences.TryGetValue(type, out result))
+            if (createdObjectReferences.TryGetValue(type, out var result))
             {
                 // The object has been created already, just return it. This will handle the circular reference case.
                 return result;
@@ -419,25 +417,16 @@ namespace WebApiInBuMen.Areas.HelpPage
                     { typeof(SByte), index => (SByte)64 },
                     { typeof(Single), index => (Single)(index + 0.1) },
                     { 
-                        typeof(String), index =>
-                        {
-                            return String.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
-                        }
+                        typeof(String), index => String.Format(CultureInfo.CurrentCulture, "sample string {0}", index)
                     },
                     { 
-                        typeof(TimeSpan), index =>
-                        {
-                            return TimeSpan.FromTicks(1234567);
-                        }
+                        typeof(TimeSpan), index => TimeSpan.FromTicks(1234567)
                     },
                     { typeof(UInt16), index => (UInt16)(index % UInt16.MaxValue) },
                     { typeof(UInt32), index => (UInt32)(index % UInt32.MaxValue) },
                     { typeof(UInt64), index => (UInt64)index },
                     { 
-                        typeof(Uri), index =>
-                        {
-                            return new Uri(String.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
-                        }
+                        typeof(Uri), index => new Uri(String.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index))
                     },
                 };
             }

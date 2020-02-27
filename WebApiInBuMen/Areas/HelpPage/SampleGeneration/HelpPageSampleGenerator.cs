@@ -13,7 +13,7 @@ using System.Web.Http.Description;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 
-namespace WebApiInBuMen.Areas.HelpPage
+namespace WebApiInBuMen.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// This class will generate the samples for the help page.
@@ -59,7 +59,7 @@ namespace WebApiInBuMen.Areas.HelpPage
         /// <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
             Justification = "This is an appropriate nesting of generic types")]
-        public IList<Func<HelpPageSampleGenerator, Type, object>> SampleObjectFactories { get; private set; }
+        public IList<Func<HelpPageSampleGenerator, Type, object>> SampleObjectFactories { get; }
 
         /// <summary>
         /// Gets the request body samples for a given <see cref="ApiDescription"/>.
@@ -91,17 +91,17 @@ namespace WebApiInBuMen.Areas.HelpPage
         {
             if (api == null)
             {
-                throw new ArgumentNullException("api");
+                throw new ArgumentNullException(nameof(api));
             }
             string controllerName = api.ActionDescriptor.ControllerDescriptor.ControllerName;
             string actionName = api.ActionDescriptor.ActionName;
             IEnumerable<string> parameterNames = api.ParameterDescriptions.Select(p => p.Name);
-            Collection<MediaTypeFormatter> formatters;
-            Type type = ResolveType(api, controllerName, actionName, parameterNames, sampleDirection, out formatters);
+            var enumerable = parameterNames.ToList();
+            Type type = ResolveType(api, controllerName, actionName, enumerable, sampleDirection, out var formatters);
             var samples = new Dictionary<MediaTypeHeaderValue, object>();
 
             // Use the samples provided directly for actions
-            var actionSamples = GetAllActionSamples(controllerName, actionName, parameterNames, sampleDirection);
+            var actionSamples = GetAllActionSamples(controllerName, actionName, enumerable, sampleDirection);
             foreach (var actionSample in actionSamples)
             {
                 samples.Add(actionSample.Key.MediaType, WrapSampleIfString(actionSample.Value));
@@ -118,7 +118,7 @@ namespace WebApiInBuMen.Areas.HelpPage
                     {
                         if (!samples.ContainsKey(mediaType))
                         {
-                            object sample = GetActionSample(controllerName, actionName, parameterNames, type, formatter, mediaType, sampleDirection);
+                            object sample = GetActionSample(controllerName, actionName, enumerable, type, formatter, mediaType, sampleDirection);
 
                             // If no sample found, try generate sample using formatter and sample object
                             if (sample == null && sampleObject != null)
@@ -148,13 +148,11 @@ namespace WebApiInBuMen.Areas.HelpPage
         /// <returns>The sample that matches the parameters.</returns>
         public virtual object GetActionSample(string controllerName, string actionName, IEnumerable<string> parameterNames, Type type, MediaTypeFormatter formatter, MediaTypeHeaderValue mediaType, SampleDirection sampleDirection)
         {
-            object sample;
-
             // First, try to get the sample provided for the specified mediaType, sampleDirection, controllerName, actionName and parameterNames.
             // If not found, try to get the sample provided for the specified mediaType, sampleDirection, controllerName and actionName regardless of the parameterNames.
             // If still not found, try to get the sample provided for the specified mediaType and type.
             // Finally, try to get the sample provided for the specified mediaType.
-            if (ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, parameterNames), out sample) ||
+            if (ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, parameterNames), out var sample) ||
                 ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, sampleDirection, controllerName, actionName, new[] { "*" }), out sample) ||
                 ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType, type), out sample) ||
                 ActionSamples.TryGetValue(new HelpPageSampleKey(mediaType), out sample))
@@ -177,9 +175,7 @@ namespace WebApiInBuMen.Areas.HelpPage
             Justification = "Even if all items in SampleObjectFactories throw, problem will be visible as missing sample.")]
         public virtual object GetSampleObject(Type type)
         {
-            object sampleObject;
-
-            if (!SampleObjects.TryGetValue(type, out sampleObject))
+            if (!SampleObjects.TryGetValue(type, out var sampleObject))
             {
                 // No specific object available, try our factories.
                 foreach (Func<HelpPageSampleGenerator, Type, object> factory in SampleObjectFactories)
@@ -235,14 +231,14 @@ namespace WebApiInBuMen.Areas.HelpPage
         {
             if (!Enum.IsDefined(typeof(SampleDirection), sampleDirection))
             {
-                throw new InvalidEnumArgumentException("sampleDirection", (int)sampleDirection, typeof(SampleDirection));
+                throw new InvalidEnumArgumentException(nameof(sampleDirection), (int)sampleDirection, typeof(SampleDirection));
             }
             if (api == null)
             {
-                throw new ArgumentNullException("api");
+                throw new ArgumentNullException(nameof(api));
             }
-            Type type;
-            if (ActualHttpMessageTypes.TryGetValue(new HelpPageSampleKey(sampleDirection, controllerName, actionName, parameterNames), out type) ||
+
+            if (ActualHttpMessageTypes.TryGetValue(new HelpPageSampleKey(sampleDirection, controllerName, actionName, parameterNames), out var type) ||
                 ActualHttpMessageTypes.TryGetValue(new HelpPageSampleKey(sampleDirection, controllerName, actionName, new[] { "*" }), out type))
             {
                 // Re-compute the supported formatters based on type
@@ -262,7 +258,7 @@ namespace WebApiInBuMen.Areas.HelpPage
                 {
                     case SampleDirection.Request:
                         ApiParameterDescription requestBodyParameter = api.ParameterDescriptions.FirstOrDefault(p => p.Source == ApiParameterSource.FromBody);
-                        type = requestBodyParameter == null ? null : requestBodyParameter.ParameterDescriptor.ParameterType;
+                        type = requestBodyParameter?.ParameterDescriptor.ParameterType;
                         formatters = api.SupportedRequestBodyFormatters;
                         break;
                     case SampleDirection.Response:
@@ -289,11 +285,11 @@ namespace WebApiInBuMen.Areas.HelpPage
         {
             if (formatter == null)
             {
-                throw new ArgumentNullException("formatter");
+                throw new ArgumentNullException(nameof(formatter));
             }
             if (mediaType == null)
             {
-                throw new ArgumentNullException("mediaType");
+                throw new ArgumentNullException(nameof(mediaType));
             }
 
             object sample = String.Empty;
@@ -341,14 +337,8 @@ namespace WebApiInBuMen.Areas.HelpPage
             }
             finally
             {
-                if (ms != null)
-                {
-                    ms.Dispose();
-                }
-                if (content != null)
-                {
-                    content.Dispose();
-                }
+                ms?.Dispose();
+                content?.Dispose();
             }
 
             return sample;
@@ -356,8 +346,7 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         internal static Exception UnwrapException(Exception exception)
         {
-            AggregateException aggregateException = exception as AggregateException;
-            if (aggregateException != null)
+            if (exception is AggregateException aggregateException)
             {
                 return aggregateException.Flatten().InnerException;
             }
@@ -432,8 +421,7 @@ namespace WebApiInBuMen.Areas.HelpPage
 
         private static object WrapSampleIfString(object sample)
         {
-            string stringSample = sample as string;
-            if (stringSample != null)
+            if (sample is string stringSample)
             {
                 return new TextSample(stringSample);
             }

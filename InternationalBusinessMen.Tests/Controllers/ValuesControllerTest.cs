@@ -24,9 +24,10 @@ namespace InternationalBusinessMen.Tests.Controllers
 
             // Declarar
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("value1", result.ElementAt(0));
-            Assert.AreEqual("value2", result.ElementAt(1));
+            var enumerable = result.ToList();
+            Assert.AreEqual(2, enumerable.Count());
+            Assert.AreEqual("value1", enumerable.ElementAt(0));
+            Assert.AreEqual("value2", enumerable.ElementAt(1));
         }
 
         [TestMethod]

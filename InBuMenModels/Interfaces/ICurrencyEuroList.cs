@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InBuMenModels.Interfaces
+﻿namespace InBuMenModels.Interfaces
 {
-    class ICurrencyEuroList
+    public interface ICurrencyEuroList
     {
         string Currency { get; set; }
         int Rate { get; set; }
