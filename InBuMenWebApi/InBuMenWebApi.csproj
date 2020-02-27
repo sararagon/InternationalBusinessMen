@@ -172,11 +172,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Calculation\Number\StringToInt.cs" />
+    <Compile Include="Services\Calculation\Numeric\StringToInt.cs" />
+    <Compile Include="Services\Factory\IRateFactory.cs" />
+    <Compile Include="Services\Factory\ITransactionFactory.cs" />
+    <Compile Include="Services\Factory\RateFactory.cs" />
+    <Compile Include="Services\Factory\TransactionFactory.cs" />
+    <Compile Include="Services\Log\ILog.cs" />
+    <Compile Include="Services\Log\Log.cs" />
     <Compile Include="Services\Reading\IRateApiReader.cs" />
     <Compile Include="Services\Reading\RateApiReader.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
     <Compile Include="Services\Repository\Repository.cs" />
+    <Compile Include="Services\Specification\CurrencySpecification.cs" />
+    <Compile Include="Services\Specification\ICurrencySpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -231,9 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Services\Calculation\CorrectRates\" />
-    <Folder Include="Services\Calculation\CurrencyType\" />
-    <Folder Include="Services\Factory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

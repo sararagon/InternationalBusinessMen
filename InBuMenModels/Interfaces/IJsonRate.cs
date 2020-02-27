@@ -1,4 +1,4 @@
-﻿namespace InBuMenModels.Classes
+﻿namespace InBuMenModels.Interfaces
 {
     public interface IJsonRate
     {

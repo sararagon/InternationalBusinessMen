@@ -1,6 +1,7 @@
 using System.Web.Mvc;
 using InBuMenModels.Classes;
 using InBuMenModels.Interfaces;
+using InBuMenWebApi.Services.Log;
 using Unity;
 using Unity.Mvc5;
 using WebApiInBuMen.Services.Repository;
@@ -22,6 +23,7 @@ namespace InBuMenWebApi
             container.RegisterType<ITransaction, Transaction>();
             container.RegisterType<IRepository<IJsonRate>, Repository<IJsonRate>>();
             container.RegisterType<IRepository<IJsonTransaction>, Repository<IJsonTransaction>>();
+            container.RegisterSingleton<ILog, Log>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

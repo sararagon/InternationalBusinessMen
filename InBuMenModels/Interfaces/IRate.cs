@@ -4,6 +4,6 @@
     {
         string FromCurrency { get; set; }
         string ToCurrency { get; set; }
-        int value { get; set; }
+        int Value { get; set; }
     }
 }

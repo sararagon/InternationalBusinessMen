@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using InBuMenModels.Interfaces;
 using Newtonsoft.Json;
 
 namespace InBuMenModels.Classes

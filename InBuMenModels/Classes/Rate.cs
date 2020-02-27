@@ -8,6 +8,6 @@ namespace InBuMenModels.Classes
     {
         public string FromCurrency { get; set; }
         public string ToCurrency { get; set; }
-        public int value { get; set; }
+        public int Value { get; set; }
     }
 }
