@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InBuMenModels.Classes
 {
-    class JsonRateGroup : IJsonRateGroup
+    public class JsonRateGroup : IJsonRateGroup
     {
         public List<IJsonRate> Rates { get; set; }
     }

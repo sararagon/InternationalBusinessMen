@@ -109,9 +109,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebApiInBuMen\WebApiInBuMen.csproj">
-      <Project>{B952954A-22CF-4FA4-86AF-8897CAF23E39}</Project>
-      <Name>WebApiInBuMen</Name>
+    <ProjectReference Include="..\InBuMenWebApi\InBuMenWebApi.csproj">
+      <Project>{2bb61d58-12ae-4cde-b82e-24776659e3be}</Project>
+      <Name>InBuMenWebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
+using InBuMenWebApi.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WebApiInBuMen;
-using WebApiInBuMen.Controllers;
+
 
 namespace InternationalBusinessMen.Tests.Controllers
 {

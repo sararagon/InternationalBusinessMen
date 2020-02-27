@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiInBuMen", "WebApiInBuMen\WebApiInBuMen.csproj", "{B952954A-22CF-4FA4-86AF-8897CAF23E39}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalBusinessMen.Tests", "InternationalBusinessMen.Tests\InternationalBusinessMen.Tests.csproj", "{69A5B5AC-3B82-40C4-AB8D-ED6AFE148BAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuMenModels", "InBuMenModels\InBuMenModels.csproj", "{B73F57B9-B5C0-492D-A50C-E33012069598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InBuMenModels", "InBuMenModels\InBuMenModels.csproj", "{B73F57B9-B5C0-492D-A50C-E33012069598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuMenCrossCutting", "InBuMenCrossCutting\InBuMenCrossCutting.csproj", "{2758C75A-5BFC-4711-9D32-747CC2A7948C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InBuMenCrossCutting", "InBuMenCrossCutting\InBuMenCrossCutting.csproj", "{2758C75A-5BFC-4711-9D32-747CC2A7948C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuMenWebApi", "InBuMenWebApi\InBuMenWebApi.csproj", "{2BB61D58-12AE-4CDE-B82E-24776659E3BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B952954A-22CF-4FA4-86AF-8897CAF23E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B952954A-22CF-4FA4-86AF-8897CAF23E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B952954A-22CF-4FA4-86AF-8897CAF23E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B952954A-22CF-4FA4-86AF-8897CAF23E39}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69A5B5AC-3B82-40C4-AB8D-ED6AFE148BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69A5B5AC-3B82-40C4-AB8D-ED6AFE148BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69A5B5AC-3B82-40C4-AB8D-ED6AFE148BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{2758C75A-5BFC-4711-9D32-747CC2A7948C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2758C75A-5BFC-4711-9D32-747CC2A7948C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2758C75A-5BFC-4711-9D32-747CC2A7948C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB61D58-12AE-4CDE-B82E-24776659E3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB61D58-12AE-4CDE-B82E-24776659E3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB61D58-12AE-4CDE-B82E-24776659E3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB61D58-12AE-4CDE-B82E-24776659E3BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
