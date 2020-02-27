@@ -13,7 +13,16 @@ namespace InBuMenWebApi.Services.Factory
 {
     public class RateFactory : IRateFactory
     {
-        private ICurrencySpecification _specification;
+        private readonly ICurrencySpecification _specification;
+
+        public RateFactory()
+        {
+        }
+
+        public RateFactory(ICurrencySpecification specification)
+        {
+            _specification = specification;
+        }
 
         public IRate SaveRate(IJsonRate r)
         {

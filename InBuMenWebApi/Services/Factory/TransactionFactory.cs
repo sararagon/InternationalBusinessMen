@@ -11,7 +11,12 @@ namespace InBuMenWebApi.Services.Factory
 {
     public class TransactionFactory : ITransactionFactory
     {
-        private ICurrencySpecification _specification;
+        private readonly ICurrencySpecification _specification;
+
+        public TransactionFactory(ICurrencySpecification specification)
+        {
+            _specification = specification;
+        }
 
         public ITransaction SaveTransaction(IJsonTransaction t)
         {

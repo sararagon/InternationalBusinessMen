@@ -10,7 +10,7 @@ namespace InBuMenWebApi.Services.Specification
     {
         public bool IsSatisfiedBy(string c)
         {
-            return c.Length == 3;
+            return !string.IsNullOrEmpty(c) && c.Length == 3;
         }
     }
 }
