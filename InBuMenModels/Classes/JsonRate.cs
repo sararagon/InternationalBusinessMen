@@ -5,12 +5,7 @@ using Newtonsoft.Json;
 
 namespace InBuMenModels.Classes
 {
-    public class RatesGroup
-    {
-        public Rates[] Property1 { get; set; }
-    }
-
-    public class Rates
+    public class JsonRate : IJsonRate
     {
         [JsonProperty("from")]
         public string From { get; set; }

@@ -6,12 +6,7 @@ using Newtonsoft.Json;
 
 namespace InBuMenModels.Classes
 {
-    public class TransactionsGroup
-    {
-        public Transaction[] Property1 { get; set; }
-    }
-
-    public class Transaction
+    public class JsonTransaction : IJsonTransaction
     {
         [JsonProperty("sku")]
         public string Sku { get; set; }
