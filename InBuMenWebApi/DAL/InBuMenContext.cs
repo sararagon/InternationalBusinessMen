@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using InBuMenModels.Classes;
 
-namespace WebApiInBuMen.DAL
+namespace InBuMenWebApi.DAL
 {
     public class InBuMenContext : DbContext
     {

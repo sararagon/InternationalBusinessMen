@@ -22,7 +22,7 @@ namespace InBuMenWebApi.Services.Factory
 
             var c = new Currency()
             {
-                Amount = StringToInt.CurrentFormatConverter(t.Amount),
+                Amount = CurrentStringToInt.CurrentFormatConverter(t.Amount),
                 CurrencyName = t.Currency
             };
 

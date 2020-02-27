@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using WebApiInBuMen.DAL;
+using InBuMenWebApi.DAL;
 
-namespace WebApiInBuMen.Services.Repository
+
+namespace InBuMenWebApi.Services.Repository
 {
     public class Repository<T> :  IRepository<T> where T : class
     {

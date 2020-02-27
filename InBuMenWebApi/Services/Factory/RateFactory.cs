@@ -25,7 +25,7 @@ namespace InBuMenWebApi.Services.Factory
             {
                 FromCurrency = r.From,
                 ToCurrency = r.To,
-                Value = StringToInt.RateFormatConverter(r.Rate)
+                Value = RateStringToInt.RateFormatConverter(r.Rate)
             };
             return rate;
         }

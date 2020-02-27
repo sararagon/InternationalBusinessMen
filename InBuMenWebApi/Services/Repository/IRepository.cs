@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApiInBuMen.Services.Repository
+namespace InBuMenWebApi.Services.Repository
 {
     public interface IRepository<T> where T : class
     {
