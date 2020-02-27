@@ -19,7 +19,7 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
     public class ModelDescriptionGenerator
     {
         // Modify this to support more data annotation attributes.
-        private readonly IDictionary<Type, Func<object, string>> AnnotationTextGenerator = new Dictionary<Type, Func<object, string>>
+        private readonly IDictionary<Type, Func<object, string>> _annotationTextGenerator = new Dictionary<Type, Func<object, string>>
         {
             { typeof(RequiredAttribute), a => "Required" },
             { typeof(RangeAttribute), a =>
@@ -61,7 +61,7 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
         };
 
         // Modify this to add more default documentations.
-        private readonly IDictionary<Type, string> DefaultTypeDocumentation = new Dictionary<Type, string>
+        private readonly IDictionary<Type, string> _defaultTypeDocumentation = new Dictionary<Type, string>
         {
             { typeof(Int16), "integer" },
             { typeof(Int32), "integer" },
@@ -84,34 +84,28 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
             { typeof(Boolean), "boolean" },
         };
 
-        private Lazy<IModelDocumentationProvider> _documentationProvider;
+        private readonly Lazy<IModelDocumentationProvider> _documentationProvider;
 
         public ModelDescriptionGenerator(HttpConfiguration config)
         {
             if (config == null)
             {
-                throw new ArgumentNullException("config");
+                throw new ArgumentNullException(nameof(config));
             }
 
             _documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
             GeneratedModels = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public Dictionary<string, ModelDescription> GeneratedModels { get; private set; }
+        public Dictionary<string, ModelDescription> GeneratedModels { get; }
 
-        private IModelDocumentationProvider DocumentationProvider
-        {
-            get
-            {
-                return _documentationProvider.Value;
-            }
-        }
+        private IModelDocumentationProvider DocumentationProvider => _documentationProvider.Value;
 
         public ModelDescription GetOrCreateModelDescription(Type modelType)
         {
             if (modelType == null)
             {
-                throw new ArgumentNullException("modelType");
+                throw new ArgumentNullException(nameof(modelType));
             }
 
             Type underlyingType = Nullable.GetUnderlyingType(modelType);
@@ -120,9 +114,8 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
                 modelType = underlyingType;
             }
 
-            ModelDescription modelDescription;
             string modelName = ModelNameHelper.GetModelName(modelType);
-            if (GeneratedModels.TryGetValue(modelName, out modelDescription))
+            if (GeneratedModels.TryGetValue(modelName, out var modelDescription))
             {
                 if (modelType != modelDescription.ModelType)
                 {
@@ -139,7 +132,7 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
                 return modelDescription;
             }
 
-            if (DefaultTypeDocumentation.ContainsKey(modelType))
+            if (_defaultTypeDocumentation.ContainsKey(modelType))
             {
                 return GenerateSimpleTypeModelDescription(modelType);
             }
@@ -251,8 +244,7 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
 
         private string CreateDefaultDocumentation(Type type)
         {
-            string documentation;
-            if (DefaultTypeDocumentation.TryGetValue(type, out documentation))
+            if (_defaultTypeDocumentation.TryGetValue(type, out var documentation))
             {
                 return documentation;
             }
@@ -271,8 +263,7 @@ namespace InBuMenWebApi.Areas.HelpPage.ModelDescriptions
             IEnumerable<Attribute> attributes = property.GetCustomAttributes();
             foreach (Attribute attribute in attributes)
             {
-                Func<object, string> textGenerator;
-                if (AnnotationTextGenerator.TryGetValue(attribute.GetType(), out textGenerator))
+                if (_annotationTextGenerator.TryGetValue(attribute.GetType(), out var textGenerator))
                 {
                     annotations.Add(
                         new ParameterAnnotation

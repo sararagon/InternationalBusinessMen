@@ -186,6 +186,8 @@
     <Compile Include="Services\Log\Log.cs" />
     <Compile Include="Services\Reading\IRateApiReader.cs" />
     <Compile Include="Services\Reading\RateApiReader.cs" />
+    <Compile Include="Services\Repository\FakeRateRepository.cs" />
+    <Compile Include="Services\Repository\FakeTransactionRepository.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
     <Compile Include="Services\Repository\Repository.cs" />
     <Compile Include="Services\Specification\CurrencySpecification.cs" />
@@ -246,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RatesList\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

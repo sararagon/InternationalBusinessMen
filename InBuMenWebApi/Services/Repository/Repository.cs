@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using InBuMenCrossCutting.Exceptions;
 using InBuMenWebApi.DAL;
 
 
@@ -42,8 +43,10 @@ namespace InBuMenWebApi.Services.Repository
         public void Delete(object id)
         {
             T existing = _table.Find(id);
-            _table.Remove(existing);
+            _table.Remove(existing ?? throw new ImposibleToRemoveAnNotExistObjectException());
         }
+
+      
         public void Save()
         {
             _context.SaveChanges();

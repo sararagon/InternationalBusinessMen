@@ -9,27 +9,27 @@ namespace InternationalBusinessMen.Test.Services.Specification
     public class CurrentSpecificationTest
     {
         private ICurrencySpecification _specification;
-        private string CorrectCurrency;
-        private string IncorrectCurrency;
+        private string _correctCurrency;
+        private string _incorrectCurrency;
 
         [TestInitialize]
         public void TestInicialize()
         {
-            CorrectCurrency = "EUR";
-            IncorrectCurrency = "EURO";
+            _correctCurrency = "EUR";
+            _incorrectCurrency = "EURO";
             _specification = new CurrencySpecification();
         }
 
         [TestMethod]
         public void IntroduceCorrectCurrency()
         {
-            Assert.IsTrue(_specification.IsSatisfiedBy(CorrectCurrency));
+            Assert.IsTrue(_specification.IsSatisfiedBy(_correctCurrency));
         }
 
         [TestMethod]
         public void IntroduceIncorrectCurrency()
         {
-            Assert.IsFalse(_specification.IsSatisfiedBy(IncorrectCurrency));
+            Assert.IsFalse(_specification.IsSatisfiedBy(_incorrectCurrency));
         }
 
         [TestMethod]

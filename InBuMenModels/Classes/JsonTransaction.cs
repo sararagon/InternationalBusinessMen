@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Transactions;
+using InBuMenModels.Interfaces;
 using Newtonsoft.Json;
 
 namespace InBuMenModels.Classes

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using InBuMenCrossCutting.Exceptions;
 using InBuMenModels.Classes;
+using InBuMenModels.Interfaces;
 using InBuMenWebApi.Services.Calculation.Numeric;
 using InBuMenWebApi.Services.Specification;
 

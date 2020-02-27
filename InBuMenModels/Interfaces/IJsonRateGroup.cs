@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using InBuMenModels.Interfaces;
 
-namespace InBuMenModels.Classes
+namespace InBuMenModels.Interfaces
 {
     public interface IJsonRateGroup
     {

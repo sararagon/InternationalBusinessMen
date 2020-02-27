@@ -1,4 +1,4 @@
-namespace InBuMenWebApi.Areas.HelpPage
+namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

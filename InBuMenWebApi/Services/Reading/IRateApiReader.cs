@@ -1,6 +1,6 @@
 ﻿using InBuMenModels.Classes;
 
-namespace WebApiInBuMen.Services.Reading
+namespace InBuMenWebApi.Services.Reading
 {
     public interface IRateApiReader
     {

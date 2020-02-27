@@ -1,17 +1,12 @@
 using System.Web.Http;
 using System.Web.Mvc;
+using InBuMenWebApi.Areas.HelpPage.App_Start;
 
 namespace InBuMenWebApi.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get
-            {
-                return "HelpPage";
-            }
-        }
+        public override string AreaName => "HelpPage";
 
         public override void RegisterArea(AreaRegistrationContext context)
         {

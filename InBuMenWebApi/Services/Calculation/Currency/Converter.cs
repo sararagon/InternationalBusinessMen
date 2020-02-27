@@ -14,48 +14,48 @@ namespace InBuMenWebApi.Services.Calculation.Currency
         /// Método mediante el cual, al implementar una función determinada, se introduce una moneda y resulta el cambio.
         /// </summary>
         /// <param name="currency"></param>
-        /// <param name="CurrenName"></param>
+        /// <param name="currenName"></param>
         /// <returns></returns>
-        public ICurrency ChangeCurrency(ICurrency currency, string CurrenName)
+        public ICurrency ChangeCurrency(ICurrency currency, string currenName)
         {
             foreach (var rate in _repository.GetAll())
             {
-                if (rate.FromCurrency == currency.CurrencyName && rate.ToCurrency == CurrenName)
+                if (rate.FromCurrency == currency.CurrencyName && rate.ToCurrency == currenName)
                 {
                     return new InBuMenModels.Classes.Currency()
                     {
                         Amount = rate.Value * currency.Amount,
-                        CurrencyName = CurrenName
+                        CurrencyName = currenName
                     };
                 }
                 
             }
 
-            var RatesInRepository = 0;
+            var ratesInRepository = 0;
             foreach (var r in _repository.GetAll())
             {
-                RatesInRepository++;
+                ratesInRepository++;
             }
-            var IntermCurrency = new InBuMenModels.Classes.Currency();
-            var FirstFind = false;
+            var intermCurrency = new InBuMenModels.Classes.Currency();
+            var firstFind = false;
             var i = 0;
             try
             {
-                while (!FirstFind && i < RatesInRepository)
+                while (!firstFind && i < ratesInRepository)
                 {
                     i++;
                     if (_repository.GetById(i).FromCurrency == currency.CurrencyName)
                     {
-                        FirstFind = true;
-                        IntermCurrency.Amount = _repository.GetById(i).Value * currency.Amount;
-                        IntermCurrency.CurrencyName = _repository.GetById(i).ToCurrency;
+                        firstFind = true;
+                        intermCurrency.Amount = _repository.GetById(i).Value * currency.Amount;
+                        intermCurrency.CurrencyName = _repository.GetById(i).ToCurrency;
                     }
 
                     if (_repository.GetById(i).ToCurrency == currency.CurrencyName)
                     {
-                        FirstFind = true;
-                        IntermCurrency.Amount = _repository.GetById(i).Value / currency.Amount;
-                        IntermCurrency.CurrencyName = _repository.GetById(i).ToCurrency;
+                        firstFind = true;
+                        intermCurrency.Amount = _repository.GetById(i).Value / currency.Amount;
+                        intermCurrency.CurrencyName = _repository.GetById(i).ToCurrency;
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace InBuMenWebApi.Services.Calculation.Currency
                 throw new NotPosibleConversonException("No ha podido realizar la conversión porque no hay nincún camino posible", ex);
             }
 
-            return ChangeCurrency(IntermCurrency, CurrenName);
+            return ChangeCurrency(intermCurrency, currenName);
 
         }
 

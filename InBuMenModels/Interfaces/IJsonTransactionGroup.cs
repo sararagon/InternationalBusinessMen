@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace InBuMenModels.Classes
+namespace InBuMenModels.Interfaces
 {
     public interface IJsonTransactionGroup
     {

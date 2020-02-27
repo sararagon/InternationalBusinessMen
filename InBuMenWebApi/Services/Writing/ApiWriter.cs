@@ -15,11 +15,11 @@ namespace InBuMenWebApi.Services.Writing
             foreach (var element in list)
             {
 
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
                 serializer.Converters.Add(new JavaScriptDateTimeConverter());
                 serializer.NullValueHandling = NullValueHandling.Ignore;
 
-                using (StreamWriter sw = new StreamWriter(@"c:\json.txt"))
+                using (var sw = new StreamWriter(@"c:\json.txt"))
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, element);

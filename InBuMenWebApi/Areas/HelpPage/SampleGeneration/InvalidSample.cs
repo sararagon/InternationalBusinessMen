@@ -1,6 +1,6 @@
 using System;
 
-namespace InBuMenWebApi.Areas.HelpPage
+namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
@@ -16,7 +16,7 @@ namespace InBuMenWebApi.Areas.HelpPage
             ErrorMessage = errorMessage;
         }
 
-        public string ErrorMessage { get; private set; }
+        public string ErrorMessage { get; }
 
         public override bool Equals(object obj)
         {

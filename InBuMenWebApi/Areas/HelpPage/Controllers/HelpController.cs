@@ -23,7 +23,7 @@ namespace InBuMenWebApi.Areas.HelpPage.Controllers
             Configuration = config;
         }
 
-        public HttpConfiguration Configuration { get; private set; }
+        public HttpConfiguration Configuration { get; }
 
         public ActionResult Index()
         {
@@ -50,8 +50,7 @@ namespace InBuMenWebApi.Areas.HelpPage.Controllers
             if (!String.IsNullOrEmpty(modelName))
             {
                 ModelDescriptionGenerator modelDescriptionGenerator = Configuration.GetModelDescriptionGenerator();
-                ModelDescription modelDescription;
-                if (modelDescriptionGenerator.GeneratedModels.TryGetValue(modelName, out modelDescription))
+                if (modelDescriptionGenerator.GeneratedModels.TryGetValue(modelName, out var modelDescription))
                 {
                     return View(modelDescription);
                 }
