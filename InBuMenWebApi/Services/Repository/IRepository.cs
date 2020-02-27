@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using InBuMenModels.Interfaces;
 
 namespace InBuMenWebApi.Services.Repository
 {

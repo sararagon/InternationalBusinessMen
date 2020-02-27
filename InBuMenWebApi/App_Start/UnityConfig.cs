@@ -3,6 +3,7 @@ using InBuMenModels.Classes;
 using InBuMenModels.Interfaces;
 using InBuMenWebApi.Services.Factory;
 using InBuMenWebApi.Services.Log;
+using InBuMenWebApi.Services.Main;
 using InBuMenWebApi.Services.Repository;
 using Unity;
 using Unity.Mvc5;
@@ -30,6 +31,7 @@ namespace InBuMenWebApi
             container.RegisterType<IRepository<Rate>, Repository<Rate>>();
             container.RegisterType<IRepository<Transaction>, Repository<Transaction>>();
             container.RegisterType<IRepository<Currency>, Repository<Currency>>();
+            container.RegisterType<IFromJsonRepositoryToJsonRepository, FromJsonRepositoryToJsonRepository>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

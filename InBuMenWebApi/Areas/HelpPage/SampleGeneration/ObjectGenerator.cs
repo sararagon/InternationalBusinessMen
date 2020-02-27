@@ -14,7 +14,7 @@ namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
     public class ObjectGenerator
     {
         internal const int DefaultCollectionSize = 2;
-        private readonly SimpleTypeObjectGenerator SimpleObjectGenerator = new SimpleTypeObjectGenerator();
+        private readonly SimpleTypeObjectGenerator _simpleObjectGenerator = new SimpleTypeObjectGenerator();
 
         /// <summary>
         /// Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
@@ -42,7 +42,7 @@ namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
             {
                 if (SimpleTypeObjectGenerator.CanGenerateObject(type))
                 {
-                    return SimpleObjectGenerator.GenerateObject(type);
+                    return _simpleObjectGenerator.GenerateObject(type);
                 }
 
                 if (type.IsArray)
@@ -216,7 +216,7 @@ namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
         private static object GenerateArray(Type arrayType, int size, Dictionary<Type, object> createdObjectReferences)
         {
             Type type = arrayType.GetElementType();
-            Array result = Array.CreateInstance(type, size);
+            Array result = Array.CreateInstance(type ?? throw new InvalidOperationException(), size);
             bool areAllElementsNull = true;
             ObjectGenerator objectGenerator = new ObjectGenerator();
             for (int i = 0; i < size; i++)
@@ -339,7 +339,8 @@ namespace InBuMenWebApi.Areas.HelpPage.SampleGeneration
 
         private static object GenerateComplexObject(Type type, Dictionary<Type, object> createdObjectReferences)
         {
-            object result = null;
+            object result;
+            result = null;
 
             if (createdObjectReferences.TryGetValue(type, out result))
             {

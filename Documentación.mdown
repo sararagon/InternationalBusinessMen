@@ -1,0 +1,21 @@
+# Documentación Examen International Business Men 
+## Patrones implementados:
+	- *Specification:* Para comprobar que los datos introducidos sean correctos.
+	- *Factory:* Para crear instancias de objetos.
+	- *Generic Repository:* Para leer y escribir de la base de datos, desacopla esta, 
+			del programa para que sea facilmente sustituible.
+	- *Log:* Aunque no implementado, sirve para logear las excepciones, se implementaria en cada excepción.
+
+## Clases específicas
+	- En la carpeta Calculation, se encuentran tanto la clase para calcular una conversión de moneda como, en otra carpeta
+	separada, las clases para cambiar de tipos los campos numéricos que se leen como string.
+	- *Reading:* En esta carpeta se encuentra la clase que implementa la lectura del repositorio, estaría mejor si implementase
+	un paquete de comprobación de la conexión o una lectura de caché.
+	
+	- Método MainService: se encarga de realizar las acciones necesarias del programa para quitar carga de trabajo al controlador,
+	falta implementar la clase para Transactions.
+	
+## Otros:
+	-Implementa inyección de dependencias mediante un UnityContainer.
+	
+	-En la parte de Test faltaria hacerlos, en repositoryTest implementaría Moq y en el repositorio usaría el FakeRepository creado.

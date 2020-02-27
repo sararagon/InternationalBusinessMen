@@ -72,7 +72,6 @@
     <Compile Include="Services\FactoryTest\RateFactoryTest.cs" />
     <Compile Include="Services\FactoryTest\TransactionFactoryTest.cs" />
     <Compile Include="Services\Specification\CurrentSpecificationTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using InBuMenCrossCutting.Exceptions;
 using InBuMenModels.Classes;
+using InBuMenModels.Interfaces;
 
 namespace InBuMenWebApi.Services.Repository
 {
     public class FakeRateRepository : IRepository<Rate>
     {
-        private List<Rate> _fakeRates = new List<Rate>();
+        private readonly List<Rate> _fakeRates = new List<Rate>();
 
         public IEnumerable<Rate> GetAll()
         {
@@ -17,33 +21,57 @@ namespace InBuMenWebApi.Services.Repository
 
         public Rate GetById(object id)
         {
-            foreach (var rate in _fakeRates)
+            IRate rateToReturn = null;
+            try
             {
-                if (rate.Id == (int) id)
+                foreach (var rate in _fakeRates)
                 {
-                    return rate;
-                } 
+                    if (rate.Id == (int)id)
+                    {
+                        rateToReturn = rate;
+                    }
+                    
+
+                }
+
+                return (Rate) rateToReturn;
             }
+            catch (Exception ex)
+            {
+                throw new RateInFakeRepositoryNotExistException(ex.Message);
+            }
+            
         }
+
+        
 
         public void Insert(Rate obj)
         {
-            throw new NotImplementedException();
+           _fakeRates.Add(obj);
         }
 
         public void Update(Rate obj)
         {
-            throw new NotImplementedException();
+            foreach (var rate in _fakeRates)
+            {
+                if (rate.Id == obj.Id)
+                {
+                    rate.Value = obj.Value;
+                    rate.FromCurrency = obj.FromCurrency;
+                    rate.ToCurrency = obj.ToCurrency;
+                }
+            }
+
         }
 
         public void Delete(object id)
         {
-            throw new NotImplementedException();
+            _fakeRates.Remove(id as Rate);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }

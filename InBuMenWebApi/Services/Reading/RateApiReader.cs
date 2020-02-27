@@ -1,11 +1,13 @@
-﻿using System.Net.Http;
-using InBuMenModels.Classes;
+﻿using InBuMenModels.Classes;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Net.Http;
 
 namespace InBuMenWebApi.Services.Reading
 {
     public class RateApiReader : IRateApiReader
     {
+
         public JsonRateGroup ReadRates()
         {
             using (var client = new HttpClient())
