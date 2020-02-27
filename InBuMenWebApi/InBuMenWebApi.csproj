@@ -175,6 +175,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Calculation\Currency\Converter.cs" />
     <Compile Include="Services\Calculation\Numeric\CurrentStringToInt.cs" />
     <Compile Include="Services\Calculation\Numeric\RateStringToInt.cs" />
     <Compile Include="Services\Factory\IRateFactory.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Services\Repository\Repository.cs" />
     <Compile Include="Services\Specification\CurrencySpecification.cs" />
     <Compile Include="Services\Specification\ICurrencySpecification.cs" />
+    <Compile Include="Services\Writing\IApiWriter.cs" />
+    <Compile Include="Services\Writing\ApiWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

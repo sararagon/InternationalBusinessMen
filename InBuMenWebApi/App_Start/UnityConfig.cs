@@ -27,6 +27,9 @@ namespace InBuMenWebApi
             container.RegisterSingleton<ILog, Log>();
             container.RegisterType<IRateFactory, RateFactory>();
             container.RegisterType<ITransactionFactory, TransactionFactory>();
+            container.RegisterType<IRepository<Rate>, Repository<Rate>>();
+            container.RegisterType<IRepository<Transaction>, Repository<Transaction>>();
+            container.RegisterType<IRepository<Currency>, Repository<Currency>>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

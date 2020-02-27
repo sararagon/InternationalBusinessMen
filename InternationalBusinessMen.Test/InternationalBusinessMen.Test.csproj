@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\FactoryTest\RateFactoryTest.cs" />
+    <Compile Include="Services\FactoryTest\TransactionFactoryTest.cs" />
     <Compile Include="Services\Specification\CurrentSpecificationTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +80,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InBuMenCrossCutting\InBuMenCrossCutting.csproj">
+      <Project>{2758c75a-5bfc-4711-9d32-747cc2a7948c}</Project>
+      <Name>InBuMenCrossCutting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InBuMenModels\InBuMenModels.csproj">
       <Project>{b73f57b9-b5c0-492d-a50c-e33012069598}</Project>
       <Name>InBuMenModels</Name>

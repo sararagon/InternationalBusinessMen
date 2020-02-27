@@ -13,6 +13,10 @@ namespace InBuMenWebApi.Services.Factory
     {
         private readonly ICurrencySpecification _specification;
 
+        public TransactionFactory()
+        {
+        }
+
         public TransactionFactory(ICurrencySpecification specification)
         {
             _specification = specification;
